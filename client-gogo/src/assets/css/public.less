@@ -1,0 +1,139 @@
+/*清除默认样式*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+img {
+  border: none;
+}
+
+a {
+  text-decoration: none;
+  display: inline-block;
+}
+
+input {
+  border: none;
+}
+
+button {
+  border: none;
+}
+
+i {
+  display: inline-block;
+  font-style: normal;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+/*公共版心*/
+.container_warp {
+  width: 1280px !important;
+  margin: 0 auto;
+}
+
+/*论坛版心*/
+.bbs_warp {
+  width: 1280px;
+  margin: 0 auto;
+}
+
+/*会员版心*/
+.vip_warp {
+  width: 1120px;
+}
+
+.container_warp:after {
+  display: block;
+  content: '';
+  width: 0;
+  height: 0;
+  clear: both;
+}
+
+.rightf {
+  float: right;
+}
+
+.leftf {
+  float: left;
+}
+
+.font12 {
+  font-size: 12px;
+  color: #727171;
+}
+
+.clear-float {
+  clear: both;
+  zoom: 1 \9;
+}
+
+.ie-float {
+  overflow: auto \9;
+}
+
+textarea::-webkit-input-placeholder {
+  color: #999;
+}
+
+textarea::-moz-placeholder {
+  color: #999;
+}
+
+textarea::-moz-placeholder {
+  color: #999;
+}
+
+textarea:-ms-input-placeholder {
+  color: #999;
+}
+
+::-webkit-input-placeholder { /* WebKit browsers */
+  color: #999;
+}
+
+::-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  color: #999;
+}
+
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color: #999;
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+  color: #999;
+}
+
+.font-color {
+  color: #727171;
+}
+
+/*图片文字对齐*/
+.align-pic {
+  vertical-align: middle;
+}
+
+/*清除IEX号*/
+/*::-ms-clear,::-ms-reveal{display:none;}*/
+input::-ms-clear {
+  display: none;
+}
+
+input::-ms-reveal {
+  display: none;
+}
+
+input, textarea, button {
+  outline: none;
+}
+
+html, body {
+  font-size: 12px;
+  font-family: ProximaNova-Reg, Avenir, Helvetica, Arial, sans-serif;
+}
