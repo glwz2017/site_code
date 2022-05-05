@@ -112,11 +112,11 @@
             <br>Please enter your verification code within 30 minutes.
           </div>
           <div class="form-item">
-            <input class="js-get-code" type="text" placeholder="Enter Code">
+            <input class="js-get-code" v-model="enterCode" type="text" placeholder="Enter Code">
           </div>
           <div class="form-tool">
-            <a class="back-btn" href="javascript:void(0)">Back</a>
-            <button class="registration-btn js-verify-code" type="button">
+            <a class="back-btn" @click="goBackFn" href="javascript:void(0)">Back</a>
+            <button class="registration-btn js-verify-code" type="button" @click="sendVerifyCodeFn">
               <span class="reg-text">Register</span>
               <span class="iconfont icon-arrowrightyoujiantou"></span>
             </button>
@@ -444,13 +444,34 @@ export default {
   name: 'VerifyCode',
   data () {
     return {
-      registerEmail: ''
+      registerEmail: '',
+      enterCode: ''
     }
   },
   mounted () {
-    this.registerEmail = this.$route.query.registerEmail
+    // this.registerEmail = this.$route.query.registerEmail
     console.log(this.$route)
-    // this.registerEmail = this.$route.params.registerEmail
+    this.registerEmail = this.$route.params.registerEmail
+  },
+  methods: {
+    goBackFn () {
+      this.$confirm('返回将丢失本次注册行为,确认取消吗?', '取消验证提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$router.go(-1)
+      }).catch(() => {
+      })
+    },
+    sendVerifyCodeFn () {
+      if (this.enterCode === '' || this.enterCode === null) {
+        this.$message({
+          type: 'warning',
+          message: '请输入正确的的验证码，以完成确认!'
+        })
+      }
+    }
   }
 }
 </script>

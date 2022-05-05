@@ -127,7 +127,7 @@
         Zhongxing Road, Kengzi Street, Pingshan District, Shenzhen, 518000, China</p>
     </div>
     <!--勾选协议弹窗弹窗-->
-    <div class="go-window-pop js-checkAgree-pop">
+    <div :style="{display:isService?'block':'none'}" class="go-window-pop js-checkAgree-pop">
       <div class="go-window-body">
         <div class="agreement-pop">
           <div class="agreement-text">
@@ -479,7 +479,7 @@ export default {
       } else {
         this.registerForm.singleFlag = true
       }
-      console.log(this.registerForm.singleFlag)
+      // console.log(this.registerForm.singleFlag)
     },
     async registerFn () {
       if (this.registerForm.email === '') {
@@ -523,18 +523,20 @@ export default {
         return false
       }
       try {
-        const result = await this.$https.post('/register', this.registerForm)
+        // const result = await this.$https.post('/register', this.registerForm)
+        const result = await this.$https.post('/email', this.registerForm)
+        console.log(result)
         if (result.data.code === '200') {
           // // //query 传参 必须是path：路由地址跳转路径，url地址显示参数
-          // await this.$router.push({
-          //   path: '/verify_code',
-          //   query: { registerEmail: this.registerForm.email }
-          // })
-          // //params 传参 必须是name：路由地址跳转路径，url地址不显示参数
           await this.$router.push({
-            name: 'VerifyCode',
-            params: { registerEmail: this.registerForm.email }
+            path: '/verify_code',
+            query: { registerEmail: this.registerForm.email }
           })
+          // //params 传参 必须是name：路由地址跳转路径，url地址不显示参数
+          // await this.$router.push({
+          //   name: 'VerifyCode',
+          //   params: { registerEmail: this.registerForm.email }
+          // })
 
           // this.$confirm('注册成功, 是否直接登录?', '注册/登录提示', {
           //   confirmButtonText: '确定',
