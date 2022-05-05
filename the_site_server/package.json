@@ -1,0 +1,21 @@
+{
+  "name": "the_site_server",
+  "version": "1.0.0",
+  "description": "这是一个通用的服务端",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "glwz2017",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.3",
+    "ip": "^1.1.5",
+    "jsonwebtoken": "^8.5.1",
+    "md5": "^2.3.0",
+    "mysql2": "^2.3.3",
+    "nodemailer": "^6.7.3"
+  },
+  "devDependencies": {}
+}
