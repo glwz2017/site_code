@@ -81,42 +81,40 @@ router.post('/login', async function (req, res) {
 // 邮箱发送
 router.post('/email', async function (req, res, next) {
   console.log(req.body.email);
-  nodemailer.createTestAccount(() => {
+  try {
     let transporter = nodemailer.createTransport({
       host: "smtp.163.com",
-      port: 465,
-      secure: true, // true for 465, false for other ports
+      port: 25,
+      secure: false, // true for 465, false for other ports
       auth: {
         user: 'cfj1589208939@163.com',
-        pass: 'your code'
+        pass: 'LQLHPWAMUBCHEMKX'
       },
     })
-    transporter.sendMail({
+    let mailResult = await transporter.sendMail({
       // 发送人
       from: 'cfj1589208939@163.com', // sender address
       // 接受人[多个邮箱已逗号分割]
-      to: "3098676973@qq.com", // list of receivers
+      // to: req.body.email, // list of receivers
+      to: req.body.email, // list of receivers
       // 邮件主题
       subject: "Hello ✔", // Subject line
       // 邮件内容
-      text: "this is a text email", // plain text body
-      html: "<b>Hello world?999</b>", // html body
-    }, (err, info) => {
-      if (err) {
-        res.json({
-          code: '-1',
-          data: [],
-          msg: '邮件发送失败'
-        })
-      }
-      res.json({
-        code: '200',
-        data: [],
-        msg: '邮件发送成功'
-      })
+      text: "this is a test email", // plain text body
+      html: `<b>code is ${req.body.email.match(/^([^@]*)@/)[1]}</b>`, // html body
     });
-  })
-
+    console.log(mailResult);
+    res.json({
+      code: '200',
+      data: mailResult.accepted[0].match(/^([^@]*)@/)[1],
+      msg: '邮件发送成功'
+    })
+  } catch (e) {
+    res.json({
+      code: '-1',
+      msg: '网络异常,邮件发送失败,请稍后重试...'
+    })
+  }
 })
 
 module.exports = router;

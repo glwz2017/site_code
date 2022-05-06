@@ -4,7 +4,7 @@
       <div class="mask"></div>
       <div class="hide-mask"></div>
       <video playsinline="" autoplay="" muted="" loop="">
-        <source src="img/images/logo.mp4" type="video/mp4">
+        <source src="../assets/images/logo.mp4" type="video/mp4">
         Your browser does not support HTML5 video.
       </video>
     </div>
@@ -105,7 +105,7 @@
             Enter the verification code that we sent to
           </div>
           <div class="verify-user-email">
-            {{ registerEmail }}
+            {{ registerInfo.email }}
           </div>
           <div class="verify-des-text">
             if you don't see it, check your spam folder.
@@ -116,7 +116,8 @@
           </div>
           <div class="form-tool">
             <a class="back-btn" @click="goBackFn" href="javascript:void(0)">Back</a>
-            <button class="registration-btn js-verify-code" type="button" @click="sendVerifyCodeFn">
+            <button class="registration-btn js-verify-code" type="button"
+                    @click="sendVerifyCodeFn">
               <span class="reg-text">Register</span>
               <span class="iconfont icon-arrowrightyoujiantou"></span>
             </button>
@@ -133,7 +134,7 @@
     </div>
 
     <!--验证信息弹窗-->
-    <div class="go-window-pop js-verify-pop">
+    <div :style="{display:isAgainMask?'block':'none'}" class="go-window-pop js-verify-pop">
       <div class="go-window-body">
         <div class="verify-pop">
           <div class="verify-title">Verification failed!</div>
@@ -149,7 +150,7 @@
             </dd>
           </dl>
           <div class="form-tool">
-            <button class="tryAgain-btn js-tryAgain-btn" type="button">
+            <button class="tryAgain-btn js-tryAgain-btn" type="button" @click="isAgainMask=false">
               Try again
             </button>
           </div>
@@ -226,7 +227,6 @@
                   <div class="country-search">
                     <input type="text" class="get-country" placeholder="Please enter country">
                   </div>
-
                   <div class="country-item ">
                     <span class="national flagbg-1"></span> AUSTRALIA
                   </div>
@@ -444,14 +444,15 @@ export default {
   name: 'VerifyCode',
   data () {
     return {
-      registerEmail: '',
-      enterCode: ''
+      registerInfo: '',
+      enterCode: '',
+      isAgainMask: false,
+      isOnceClick: true
     }
   },
   mounted () {
-    // this.registerEmail = this.$route.query.registerEmail
     console.log(this.$route)
-    this.registerEmail = this.$route.params.registerEmail
+    this.registerInfo = this.$route.params.registerInfo
   },
   methods: {
     goBackFn () {
@@ -464,12 +465,28 @@ export default {
       }).catch(() => {
       })
     },
-    sendVerifyCodeFn () {
+    async sendVerifyCodeFn () {
       if (this.enterCode === '' || this.enterCode === null) {
-        this.$message({
-          type: 'warning',
-          message: '请输入正确的的验证码，以完成确认!'
-        })
+        this.isAgainMask = true
+        return false
+      }
+      console.log(this.$route.params.enterCode)
+      const result = await this.$https.post('/register', this.registerInfo)
+      if (this.enterCode === this.$route.params.enterCode) {
+        if (result.data.code === '200') {
+          this.$message({
+            type: 'success',
+            message: '注册成功'
+          })
+          this.isOnceClick = true
+        } else {
+          this.$message({
+            type: 'error',
+            message: '注册失败'
+          })
+        }
+      } else {
+        this.isAgainMask = true
       }
     }
   }

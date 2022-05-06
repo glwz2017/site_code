@@ -127,7 +127,7 @@
         Zhongxing Road, Kengzi Street, Pingshan District, Shenzhen, 518000, China</p>
     </div>
     <!--勾选协议弹窗弹窗-->
-    <div :style="{display:isService?'block':'none'}" class="go-window-pop js-checkAgree-pop">
+    <div :style="{display:isServiceMask?'block':'none'}" class="go-window-pop js-checkAgree-pop">
       <div class="go-window-body">
         <div class="agreement-pop">
           <div class="agreement-text">
@@ -143,10 +143,10 @@
             </div>
           </div>
           <div class="form-tool">
-            <button class="cancel" type="button">
+            <button class="cancel" type="button" @click="isServiceMask=false">
               Cancel
             </button>
-            <button class="agree" type="button">
+            <button class="agree" type="button" @click="agreePolicyFn">
               Agree
             </button>
           </div>
@@ -448,6 +448,7 @@ export default {
         singleFlag: true
       },
       isService: false,
+      isServiceMask: false,
       loginForm: {
         email: '',
         pwd: ''
@@ -463,6 +464,10 @@ export default {
     },
     blurItemFn (e) {
       e.target.parentNode.classList.remove('active')
+    },
+    agreePolicyFn () {
+      this.isServiceMask = false
+      this.isService = true
     },
     async singletonNameFn () {
       const querySingle = await this.$https.get('/singleton', {
@@ -516,49 +521,32 @@ export default {
         return false
       }
       if (!this.isService) {
-        this.$message({
-          type: 'warning',
-          message: '请先勾选该协议'
-        })
+        this.isServiceMask = true
         return false
       }
       try {
-        // const result = await this.$https.post('/register', this.registerForm)
         const result = await this.$https.post('/email', this.registerForm)
-        console.log(result)
         if (result.data.code === '200') {
           // // //query 传参 必须是path：路由地址跳转路径，url地址显示参数
-          await this.$router.push({
-            path: '/verify_code',
-            query: { registerEmail: this.registerForm.email }
-          })
-          // //params 传参 必须是name：路由地址跳转路径，url地址不显示参数
           // await this.$router.push({
-          //   name: 'VerifyCode',
-          //   params: { registerEmail: this.registerForm.email }
+          //   path: '/verify_code',
+          //   query: { registerEmail: this.registerForm.email }
           // })
-
-          // this.$confirm('注册成功, 是否直接登录?', '注册/登录提示', {
-          //   confirmButtonText: '确定',
-          //   cancelButtonText: '取消',
-          //   type: 'warning'
-          // }).then(() => {
-          //   window.localStorage.setItem('token', result.data.token)
-          //   this.$router.push('/')
-          // }).catch(() => {
-          //   this.registerForm.email = ''
-          //   this.registerForm.pwd = ''
-          //   this.registerForm.confirmPwd = ''
-          //   console.log('cancel')
-          // })
+          // //params 传参 必须是name：路由地址跳转路径，url地址不显示参数
+          await this.$router.push({
+            name: 'VerifyCode',
+            params: {
+              registerInfo: this.registerForm,
+              enterCode: result.data.data
+            }
+          })
         } else {
           this.$message({
             type: 'error',
-            message: '注册失败,请稍后重试...'
+            message: result.data.msg
           })
         } // end if
       } catch (err) {
-        console.log(err)
         this.$message({
           type: 'error',
           message: '未知异常,请稍后重试...'
