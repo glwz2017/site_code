@@ -2,7 +2,9 @@
   <div class="index-pages">
     <Header :isLogin="isLogin"></Header>
     <div>
-      <div class="box"></div>
+      <div class="box">
+        {{ this.$store.state.count }}
+      </div>
       <router-view></router-view>
     </div>
     <Footer></Footer>
@@ -12,7 +14,6 @@
 <script>
 import Header from '@/components/header/Header'
 import Footer from '@/components/footer/Footer'
-
 export default {
   name: 'Home',
   components: {

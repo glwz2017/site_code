@@ -5,7 +5,6 @@ import Home from '@/views/Home'
 import ErrorPage from '@/components/errorPage/ErrorPage'
 
 Vue.use(Router)
-
 const routes = new Router({
   mode: 'history',
   // mode: 'hash',

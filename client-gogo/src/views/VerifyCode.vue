@@ -478,7 +478,7 @@ export default {
             type: 'success',
             message: '注册成功'
           })
-          this.isOnceClick = true
+          this.$router.replace('/')
         } else {
           this.$message({
             type: 'error',

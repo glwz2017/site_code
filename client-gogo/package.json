@@ -13,7 +13,8 @@
     "element-ui": "^2.15.6",
     "nodemailer": "^6.7.3",
     "vue": "^2.6.11",
-    "vue-router": "^3.5.2"
+    "vue-router": "^3.5.2",
+    "vuex": "^3.6.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.13",

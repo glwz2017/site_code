@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router/router'
+import store from './store/index'
 import './assets/fonts/iconfont.css'
 import axios from 'axios'
 import 'element-ui/lib/theme-chalk/index.css'
 import { Button, Form, Message, MessageBox } from 'element-ui'
+
 Vue.use(Button)
 Vue.use(Form)
 // elementUI 弹窗需要挂载到原型上才行
@@ -63,5 +65,6 @@ axios.interceptors.response.use((response) => {
 
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')
