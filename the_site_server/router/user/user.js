@@ -88,7 +88,7 @@ router.post('/email', async function (req, res, next) {
       secure: false, // true for 465, false for other ports
       auth: {
         user: 'cfj1589208939@163.com',
-        pass: 'LQLHPWAMUBCHEMKX'
+        pass: ''
       },
     })
     let mailResult = await transporter.sendMail({
