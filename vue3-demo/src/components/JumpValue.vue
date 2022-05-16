@@ -2,13 +2,18 @@
   <div class="son">
     <h2>我是子组件
       [即将输出父组件的值]:{{ p1 }}
-      {{kk.name}}
+      {{ kk.name }}
+      <br>我是vuex的值
+      {{storeName}}
     </h2>
+
+    <button @click="changeVuexFn">改变vuex里的值</button>
   </div>
 </template>
 
 <script>
-import { inject, reactive } from 'vue'
+import { computed, inject, reactive } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   name: 'JumpValue',
@@ -23,10 +28,21 @@ export default {
       console.log(kk)
     }
 
+    const myStore = useStore()
+    const storeName = computed(() => {
+      return myStore.state.name
+    })
+
+    function changeVuexFn () {
+      myStore.dispatch('changeVuexState')
+    }
+
     return {
       p1,
       sonFunction,
-      kk
+      kk,
+      storeName,
+      changeVuexFn
     }
   }
 }

@@ -4,6 +4,15 @@ export default createStore({
   state: {
     name: '淘宝'
   },
-  mutations: {},
-  actions: {}
+  mutations: {
+    setVuexState (state) {
+      state.name = '我是子组件改变的值'
+    }
+  },
+  actions: {
+    changeVuexState (store) {
+      console.log('=====')
+      store.commit('setVuexState')
+    }
+  }
 })

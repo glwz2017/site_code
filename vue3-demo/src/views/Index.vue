@@ -20,7 +20,6 @@
       我还父级组件
       <button @click="fatherToSonFn">传值给子组件</button>
     </div>
-    <div>{{this.$store.state.name}}</div>
     <JumpValue ref="sonRef"></JumpValue>
   </div>
 </template>
